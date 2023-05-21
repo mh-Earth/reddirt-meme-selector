@@ -12,7 +12,9 @@ const Navbar = () => {
                 </Link>
                 <nav className="md:ml-auto flex font-semibold flex-wrap items-center text-xl justify-center">
                     <Link href={"/"} className="mr-8 md:block hidden hover:text-gray-900 text-black">Home</Link>
-                    <Link href={"/"} className="mr-8 md:block hidden hover:text-gray-900 text-black">About</Link>
+                    <Link href={"/about"} className="mr-8 md:block hidden hover:text-gray-900 text-black">About</Link>
+                    <Link href={"/settings"} className="mr-8 md:block hidden hover:text-gray-900 text-black">Settings</Link>
+                    <Link href={"/memes"} className="mr-8 md:block hidden hover:text-gray-900 text-black">Show Your Memes</Link>
                 </nav>
             </div>
         </nav>

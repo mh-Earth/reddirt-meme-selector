@@ -7,17 +7,6 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 const Viewer = (props) => {
 
 
-
-    let title = props.title
-
-    if(props.title.length > 50 ){
-        const title = props.title.slice(0,50)
-    }
-    else{
-        const title = props.title
-
-    }
-
     return (
         <div className=" m-auto flex justify-evenly  my-5">
 
