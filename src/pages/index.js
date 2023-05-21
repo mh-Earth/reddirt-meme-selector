@@ -5,10 +5,10 @@ import reddit_logo from "../../public/reddit.svg"
 
 export default function Home() {
 
-	const [reddit, setReddit] = useState('')
+	const [reddit, setReddit] = useState()
 	const router = useRouter()
 	const [buttonMassage, setButtonMassage] = useState("Reddit!!!");
-	const [temReddit, setTemReddit] = useState("")
+	const [temReddit, setTemReddit] = useState()
 	const [error, setError] = useState(false)
 	const [isLoading, setLoading] = useState(false);
 
@@ -81,12 +81,12 @@ export default function Home() {
 	return (<>
 
 		<section className="text-black w-screen md:h-screen h-[70vh] flex justify-center items-center">
-			<div className=" absolute w-5/6 h-5/6">
+			<div className="absolute w-5/6 h-5/6">
 				<Image src={reddit_logo} fill alt='reddit logo' className='relative backdrop-opacity-50' />
 			</div>
 			<div className="relative w-full px-5 md:p-0 md:w-1/6 m-auto flex flex-col gap-5">
 				<input onChange={handleChange} type="text" id="name" name="name" className="w-full bg-gray-100 bg-opacity-60 rounded border border-black  text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Subreddit' />
-				<p className={`text-red-700 ${error ? "block" : "hidden"}  font-bold px-3 py-1 bg-red-200  border-2 border-red-800 rounded`} >"{temReddit}" <span className='text-red-700'> dose to exits!! </span></p>
+				<p className={`text-red-700 ${error ? "block" : "hidden"}  font-bold px-3 py-1 bg-red-200  border-2 border-red-800 rounded`} > &quot;{temReddit}&quot; <span className='text-red-700'> dose to exits!! </span></p>
 				<button disabled={isLoading} onClick={handelClick} className="flex mx-auto text-white bg-red-400 border-0 py-1 px-5  hover:bg-red-500 rounded text-lg justify-center items-center">
 					{buttonMassage}
 				</button>

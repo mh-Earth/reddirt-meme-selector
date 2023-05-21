@@ -6,10 +6,9 @@ import { faChevronCircleLeft, faChevronLeft, faChevronRight, faTimes, faPlus, fa
 import NotFound from 'components/NotFound'
 import Alert from 'components/Alert'
 import EmptyViewer from 'components/EmptyViewer'
-const page = (props) => {
+const SubReddit = (props) => {
 
     const [subs, setSubs] = useState([])
-    const [total_subs, setTotal_subs] = useState()
     const [meme_index_count, set_meme_index_count] = useState(0)
     const [selectees, setSelectees] = useState([])
     const [Saving, setSaving] = useState(false)
@@ -23,7 +22,6 @@ const page = (props) => {
     useEffect(() => {
 
         setSubs(props.data.submission)
-        setTotal_subs(props.data.total)
 
     }, [])
 
@@ -88,7 +86,6 @@ const page = (props) => {
                         setSubs((prevSubs) => prevSubs.filter((sub) => sub.id !== selectee.id));
                       });
 
-                    setTotal_subs(subs.length)
                     setSelectees([])
                     set_meme_index_count(0)
 
@@ -220,7 +217,7 @@ const page = (props) => {
 
                             <div>
                                 <p className='text-2xl  font-semibold ' >Post-info</p>
-                                <p>Sub-Reddit - "{props.subredditinfo[0]}"</p>
+                                <p>Sub-Reddit - {props.subredditinfo[0]}</p>
                                 <p>Author - {subs[meme_index_count].author} </p>
                                 <p>ID - {subs[meme_index_count].id}</p>
                                 <p>url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url}</a></p>
@@ -268,8 +265,8 @@ const page = (props) => {
 export async function getServerSideProps(context) {
     const params = context.query.subreddit
 
-    // const res = await fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${params[0]}/${params[1]}/${params[2]}`)
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${params[0]}/${params[1]}/${params[2]}`)
+    // const res = await fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
     const data = await res.json()
 
     return {
@@ -277,5 +274,5 @@ export async function getServerSideProps(context) {
     };
 }
 
-export default page
+export default SubReddit
 
