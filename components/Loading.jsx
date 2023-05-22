@@ -41,25 +41,6 @@ const Loading = () => {
                 </div>
 
             </div>
-            {/* Info box */}
-            <div className="mx-2 md:mx-20">
-                <h2 className='text-4xl font-semibold uppercase '>Info</h2>
-                <details>
-                    <div className="flex justify-start md:flex-row flex-col gap-20 my-3">
-
-                        <div>
-                        </div>
-
-                        <div>
-                        </div>
-
-                        <div>
-                            <p className='text-2xl  font-semibold ' >Selectees</p>
-                        </div>
-                    </div>
-                </details>
-            </div>
-
         </div >
     )
 }

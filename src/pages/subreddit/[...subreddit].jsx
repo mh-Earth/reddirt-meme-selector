@@ -21,17 +21,20 @@ const SubReddit = () => {
     const [alertMassage, setAlertMassage] = useState("")
     const selectedIndex = useRef([])
     const [loading, setLoading] = useState(true)
+    const [RequestTime, setRequestTime] = useState()
     const router = useRouter()
     const  { subreddit } = router.query
     
     useEffect(() => {
         setLoading(true);
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/5`)
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}`)
         // fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
           .then((res) => res.json())
           .then((data) => {
             setLoading(false);
             setSubs(data.submission)
+            setRequestTime(data.time)
+            console.log(data.submission)
           });
 
       }, []);
@@ -228,7 +231,7 @@ const SubReddit = () => {
                                 <p>Mode - {subreddit[1]}</p>
                                 <p>Limit - {subreddit[2]}</p>
                                 <p>Count - {subs.length}</p>
-                                <p>Time - {subs.time}</p>
+                                <p>Time - {RequestTime}</p>
                             </div>
 
                             <div>
