@@ -1,6 +1,6 @@
 import React from 'react'
 
-const memes = () => {
+const Memes = () => {
   return (
     <div>
       MEME PAGE
@@ -8,4 +8,4 @@ const memes = () => {
   )
 }
 
-export default memes
+export default Memes

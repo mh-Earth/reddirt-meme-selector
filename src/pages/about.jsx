@@ -1,6 +1,6 @@
 import React from 'react'
 
-const about = () => {
+const About = () => {
   return (
     <div className="h-screen bg-slate-100 flex justify-center items-center selection:bg-red-700 text-white">
 
@@ -10,4 +10,4 @@ const about = () => {
   )
 }
 
-export default about
+export default About

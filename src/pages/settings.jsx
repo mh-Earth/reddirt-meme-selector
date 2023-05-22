@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const settings = () => {
+const Settings = () => {
 
 
 	const [Limit, setLimit] = useState(50)
@@ -66,4 +66,4 @@ const settings = () => {
 	)
 }
 
-export default settings
+export default Aettings
