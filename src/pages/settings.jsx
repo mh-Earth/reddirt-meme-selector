@@ -66,4 +66,4 @@ const Settings = () => {
 	)
 }
 
-export default Aettings
+export default Settings
