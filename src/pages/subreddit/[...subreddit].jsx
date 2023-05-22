@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import Viewer from 'components/Viewer'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronCircleLeft, faChevronLeft, faChevronRight, faTimes, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faChevronRight, faTimes, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 import NotFound from 'components/NotFound'
 import Alert from 'components/Alert'
 import EmptyViewer from 'components/EmptyViewer'
-const SubReddit = (props) => {
+import { useRouter } from 'next/router'
+import Loading from 'components/Loading'
+
+
+const SubReddit = () => {
 
     const [subs, setSubs] = useState([])
     const [meme_index_count, set_meme_index_count] = useState(0)
@@ -16,14 +20,21 @@ const SubReddit = (props) => {
     const [alertType, setAlertType] = useState("primary")
     const [alertMassage, setAlertMassage] = useState("")
     const selectedIndex = useRef([])
-
-
-
+    const [loading, setLoading] = useState(true)
+    const router = useRouter()
+    const  { subreddit } = router.query
+    
     useEffect(() => {
+        setLoading(true);
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/5`)
+        // fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
+          .then((res) => res.json())
+          .then((data) => {
+            setLoading(false);
+            setSubs(data.submission)
+          });
 
-        setSubs(props.data.submission)
-
-    }, [])
+      }, []);
 
 
     const handel_next = () => {
@@ -124,6 +135,11 @@ const SubReddit = (props) => {
         setAlert(false)
     }
 
+
+    if(loading)
+        return( <Loading/>)
+
+
     return (
         <div className="flex flex-col">
 
@@ -208,16 +224,16 @@ const SubReddit = (props) => {
 
                             <div>
                                 <p className='text-2xl  font-semibold ' >Search Info</p>
-                                <p>Sub-Reddit - {props.subredditinfo[0]}</p>
-                                <p>Mode - {props.subredditinfo[1]}</p>
-                                <p>Limit - {props.subredditinfo[2]}</p>
+                                <p>Sub-Reddit - {subreddit[0]}</p>
+                                <p>Mode - {subreddit[1]}</p>
+                                <p>Limit - {subreddit[2]}</p>
                                 <p>Count - {subs.length}</p>
-                                <p>Time - {props.data.time}</p>
+                                <p>Time - {subs.time}</p>
                             </div>
 
                             <div>
                                 <p className='text-2xl  font-semibold ' >Post-info</p>
-                                <p>Sub-Reddit - {props.subredditinfo[0]}</p>
+                                <p>Sub-Reddit - {subreddit[0]}</p>
                                 <p>Author - {subs[meme_index_count].author} </p>
                                 <p>ID - {subs[meme_index_count].id}</p>
                                 <p>url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url}</a></p>
@@ -244,8 +260,7 @@ const SubReddit = (props) => {
             ) : ""
             }
             {/* debug box */}
-            <div className="mx-2 md:mx-20">
-                {/* log subs */}
+            {/* <div className="mx-2 md:mx-20">
                 <details className=''>
                     <summary className='my-3'>Debugger options</summary>
                     <button onClick={() => console.log(subs)} className="bg-transparent hover:bg-black text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent mx-1 rounded duration-100 bottom-0">Log submissions</button>
@@ -254,24 +269,12 @@ const SubReddit = (props) => {
                     <button onClick={() => console.log(total_subs)} className="bg-transparent hover:bg-black text-black font-semibold hover:text-white py-2 px-4 border mx-1 border-black hover:border-transparent rounded duration-100 bottom-0">Log Total subs</button>
                 </details>
 
-            </div>
+            </div> */}
         </div >
     )
 
 
 
-}
-
-export async function getServerSideProps(context) {
-    const params = context.query.subreddit
-
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${params[0]}/${params[1]}/${params[2]}`)
-    // const res = await fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
-    const data = await res.json()
-
-    return {
-        props: { data: data, subredditinfo: params }, // will be passed to the page component as props
-    };
 }
 
 export default SubReddit

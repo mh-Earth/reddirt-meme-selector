@@ -14,7 +14,7 @@ const EmptyViewer = () => {
                 <hr />
 
                 <FontAwesomeIcon size='3x' icon={faCaretUp} ></FontAwesomeIcon>
-                <p>1000</p>
+                <p>........</p>
                 <FontAwesomeIcon size='3x' icon={faCaretDown}></FontAwesomeIcon>
             </div>
 
@@ -26,7 +26,8 @@ const EmptyViewer = () => {
                 </div>
 
                 <div className="relative border-4 border-black p-2">
-                    <Image src={empty} width={800} height={800} className='md:aspect-video object-contain border-2' alt='Meme'  />
+                    {/* <Image src={empty} width={800} height={800} className='md:aspect-video object-contain border-2' alt='Meme'  /> */}
+                    <div className="animate-pulse w-[750px] h-[650px] bg-slate-700 border-2"></div>
                 </div>
             </div>
         </div>
