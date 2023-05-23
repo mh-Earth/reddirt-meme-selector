@@ -27,14 +27,13 @@ const SubReddit = () => {
     
     useEffect(() => {
         setLoading(true);
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}`)
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}` ,{cache:"no-cache"})
         // fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
           .then((res) => res.json())
           .then((data) => {
             setLoading(false);
             setSubs(data.submission)
             setRequestTime(data.time)
-            console.log(data.submission)
           });
 
       }, []);
@@ -157,7 +156,7 @@ const SubReddit = () => {
 
                     }
                     <div className="w-full flex justify-between ">
-                        <div className=" md:ml-24 ">
+                        <div className=" md:ml-20 ">
                             <button onClick={handel_previous} className="bg-transparent hover:bg-black text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent  duration-100 border-r-0">
                                 <FontAwesomeIcon icon={faChevronLeft} className="mx-1" />
                                 {/* Prev */}
@@ -177,7 +176,7 @@ const SubReddit = () => {
                 </div>
 
                 {/* Select and other sections */}
-                <div className="md:h-[60vh] flex flex-col md:w-2/6 w-full mx-2 mt-20 border-4 border-black">
+                <div className="md:h-[60vh] flex flex-col md:w-2/6 w-full md:mx-2 mt-20 md:border-4 border-2 border-black">
                     <p className='text-xl md:text-4xl font-semibold my-4 text-center sticky top-0 z-50 bg-white'>Selected Memes</p>
                     <div className=" h-full">
                         <div className="h-full max-h-[435px] overflow-y-scroll flex flex-wrap justify-center">
@@ -187,7 +186,7 @@ const SubReddit = () => {
                                     return (
                                         <div key={index} className="m-2 rounded-sm w-fit relative">
 
-                                            <FontAwesomeIcon size='lg' className='absolute left-[95%] -top-2 cursor-pointer text-gray-600 hover:text-black' icon={faTimes} onClick={
+                                            <FontAwesomeIcon size='lg' className='absolute left-[90%] -top-2 cursor-pointer text-gray-600 hover:text-black' icon={faTimes} onClick={
                                                 () => {
                                                     setSelectees(selectees.filter(a => a.id !== e.id));
                                                 }

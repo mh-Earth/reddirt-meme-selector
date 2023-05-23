@@ -57,6 +57,7 @@ export default function Home() {
 		return (
 
 			<>
+			
 				<section className="text-black w-screen md:h-screen h-[70vh] flex justify-center items-center">
 					<div className=" absolute w-5/6 h-5/6">
 						<Image src={reddit_logo} fill alt='reddit logo' className='relative backdrop-opacity-50' />
