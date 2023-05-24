@@ -63,7 +63,7 @@ const SubReddit = () => {
         setSelectees(
             [
                 ...selectees, {
-                    id: subs[meme_index_count].id,
+                    name: subs[meme_index_count].name,
                     url: subs[meme_index_count].url
                 }
             ]
@@ -73,12 +73,12 @@ const SubReddit = () => {
 
     const handel_save = () => {
 
-        const data = { submission_ids: [] }
+        const data = { submission_names: [] }
 
 
         selectees.map((e) => {
-            data.submission_ids = [
-                ...data.submission_ids, e.id
+            data.submission_names = [
+                ...data.submission_names, e.name
             ]
         })
 
@@ -96,7 +96,7 @@ const SubReddit = () => {
                     setAlertMassage("Your memes has been saved successfully")
 
                     selectees.map((selectee) => {
-                        setSubs((prevSubs) => prevSubs.filter((sub) => sub.id !== selectee.id));
+                        setSubs((prevSubs) => prevSubs.filter((sub) => sub.name !== selectee.name));
                       });
 
                     setSelectees([])
@@ -228,14 +228,15 @@ const SubReddit = () => {
                                 <p className='text-2xl  font-semibold ' >Search Info</p>
                                 <p>Sub-Reddit - {subreddit[0]}</p>
                                 <p>Mode - {subreddit[1]}</p>
-                                <p>Limit - {subreddit[2]}</p>
-                                <p>Count - {subs.length}</p>
-                                <p>Time - {RequestTime}</p>
+                                <p>Asked for - {subreddit[2]}</p>
+                                <p>Get - {subs.length}</p>
+                                <p>Request Time - {RequestTime}</p>
                             </div>
 
                             <div>
                                 <p className='text-2xl  font-semibold ' >Post-info</p>
                                 <p>Sub-Reddit - {subreddit[0]}</p>
+                                <p>Name - {subs[meme_index_count].name} </p>
                                 <p>Author - {subs[meme_index_count].author} </p>
                                 <p>ID - {subs[meme_index_count].id}</p>
                                 <p>url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url}</a></p>
@@ -250,7 +251,7 @@ const SubReddit = () => {
                                 <p>{selectees.length === 0 ? "0 selectees found" : selectees.map(e => {
                                     return (
 
-                                        <span key={e.id}>{e.id},</span>
+                                        <p key={e.name}>{e.name},</p>
 
                                     )
                                 }
