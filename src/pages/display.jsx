@@ -85,12 +85,12 @@ const Display = () => {
 				method: "DELETE",
 				body: JSON.stringify(data),
 				headers: { "Content-Type": "application/json" }
-			}).then((res) => res.status)
-				.then((code) => {
-					if (code === 200) {
+			}).then((res) => res.ok)
+				.then((ok) => {
+					if (ok) {
 						setDeleting(false)
 						setAlert(true)
-						setAlertMassage("Your memes has been saved successfully")
+						setAlertMassage("Your memes has been delete successfully")
 
 						selectees.map((selectee) => {
 							setSubs((prevSubs) => prevSubs.filter((sub) => sub.name !== selectee.name));
@@ -134,7 +134,12 @@ const Display = () => {
 
 
 	if (loading)
-		return (<Loading />)
+		return (
+			<>
+			{alert ? <Alert handel_close={handel_alert} massage={alertMassage} type={alertType} /> : ""}
+			<Loading />
+			</>
+		)
 
 
 	return (
@@ -183,7 +188,7 @@ const Display = () => {
 
 											<FontAwesomeIcon size='lg' className='absolute left-[90%] -top-2 cursor-pointer text-gray-600 hover:text-black' icon={faTimes} onClick={
 												() => {
-													setSelectees(selectees.filter(a => a.id !== e.id));
+													setSelectees(selectees.filter(a => a.name !== e.name));
 												}
 											} ></FontAwesomeIcon>
 											<Image src={e.url} alt="abs" width={90} height={90} placeholder='blur' blurDataURL={process.env.NEXT_PUBLIC_IMAGEBLURDATA} />

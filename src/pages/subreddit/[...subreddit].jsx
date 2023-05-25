@@ -23,20 +23,20 @@ const SubReddit = () => {
     const [loading, setLoading] = useState(true)
     const [RequestTime, setRequestTime] = useState()
     const router = useRouter()
-    const  { subreddit } = router.query
-    
+    const { subreddit } = router.query
+
     useEffect(() => {
         setLoading(true);
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}` ,{cache:"no-cache"})
-        // fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
-          .then((res) => res.json())
-          .then((data) => {
-            setLoading(false);
-            setSubs(data.submission)
-            setRequestTime(data.time)
-          });
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}`, { cache: "no-cache" })
+            // fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
+            .then((res) => res.json())
+            .then((data) => {
+                setLoading(false);
+                setSubs(data.submission)
+                setRequestTime(data.time)
+            });
 
-      }, []);
+    }, []);
 
 
     const handel_next = () => {
@@ -88,16 +88,16 @@ const SubReddit = () => {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
-        }).then((res) => res.status)
-            .then((code) => {
-                if (code === 200) {
+        }).then((res) => res.ok)
+            .then((ok) => {
+                if (ok) {
                     setSaving(false)
                     setAlert(true)
                     setAlertMassage("Your memes has been saved successfully")
 
                     selectees.map((selectee) => {
                         setSubs((prevSubs) => prevSubs.filter((sub) => sub.name !== selectee.name));
-                      });
+                    });
 
                     setSelectees([])
                     set_meme_index_count(0)
@@ -115,20 +115,20 @@ const SubReddit = () => {
                 }
 
             })
-        .catch((error) => {
+            .catch((error) => {
 
-            if (error.response && error.response.status) {
-                setSaving(false)
-                setAlert(true)
-                setAlertType('danger')
-                setAlertMassage(`${error.response.status}!! Something went wrong`)
-            } else {
-                setSaving(false)
-                setAlert(true)
-                setAlertType('danger')
-                setAlertMassage(` ${error.massage}`)
-            }
-        })
+                if (error.response && error.response.status) {
+                    setSaving(false)
+                    setAlert(true)
+                    setAlertType('danger')
+                    setAlertMassage(`${error.response.status}!! Something went wrong`)
+                } else {
+                    setSaving(false)
+                    setAlert(true)
+                    setAlertType('danger')
+                    setAlertMassage(` ${error.massage}`)
+                }
+            })
     }
 
 
@@ -138,8 +138,13 @@ const SubReddit = () => {
     }
 
 
-    if(loading)
-        return( <Loading/>)
+    if (loading)
+        return (
+            <>
+                {alert ? <Alert handel_close={handel_alert} massage={alertMassage} type={alertType} /> : ""}
+                <Loading />
+            </>
+        )
 
 
     return (
@@ -152,7 +157,7 @@ const SubReddit = () => {
                 <div className='w-fit p-2 '>
 
                     {
-                        subs.length === 0 ? <EmptyViewer /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1} /> : "")
+                        subs.length === 0 ? <EmptyViewer /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1}  handel_next_event={handel_next} /> : "")
 
                     }
                     <div className="w-full flex justify-between ">
@@ -188,7 +193,7 @@ const SubReddit = () => {
 
                                             <FontAwesomeIcon size='lg' className='absolute left-[90%] -top-2 cursor-pointer text-gray-600 hover:text-black' icon={faTimes} onClick={
                                                 () => {
-                                                    setSelectees(selectees.filter(a => a.id !== e.id));
+                                                    setSelectees(selectees.filter(a => a.name !== e.name));
                                                 }
                                             } ></FontAwesomeIcon>
                                             <Image src={e.url} alt="abs" width={90} height={90} placeholder='blur' blurDataURL={process.env.NEXT_PUBLIC_IMAGEBLURDATA} />

@@ -6,6 +6,11 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 const Viewer = (props) => {
 
+    const handel_double_click = (e) =>{
+        if(e.detail == 2){
+            props.handel_next_event()
+        }
+    }
 
     return (
         <div className=" m-auto flex justify-evenly  my-5">
@@ -28,7 +33,7 @@ const Viewer = (props) => {
                     <p className=' text-sm text-gray-700'>{props.author}</p>
                 </div>
 
-                <div className="relative border-4 border-black p-2">
+                <div onDoubleClick={props.handel_next_event} className="relative border-4 border-black p-2">
                     <Image key={props.id} src={props.url} width={800} height={800} className='md:aspect-video object-contain border-2' alt='Meme' placeholder='blur' blurDataURL={process.env.NEXT_PUBLIC_IMAGEBLURDATA} />
                 </div>
             </div>
