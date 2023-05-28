@@ -1,16 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import Swipe from 'react-easy-swipe';
 
 const Viewer = (props) => {
 
-    const handel_double_click = (e) =>{
-        if(e.detail == 2){
-            props.handel_next_event()
-        }
-    }
 
     return (
         <div className=" m-auto flex justify-evenly  my-5">
@@ -29,21 +24,22 @@ const Viewer = (props) => {
 
             <div className="flex flex-col">
                 <div className="">
-                    <p className='font-semibold text-3xl md:text-4xl' >{props.title.length > 50 ? props.title.slice(0,50) + "..." : props.title}</p>
+                    <p className='font-semibold text-3xl md:text-4xl' >{props.title.length > 50 ? props.title.slice(0, 50) + "..." : props.title}</p>
                     <p className=' text-sm text-gray-700'>{props.author}</p>
                 </div>
-
-                <div onDoubleClick={props.handel_next_event} className="relative border-4 border-black p-2">
-                    <Image key={props.id} src={props.url} width={800} height={800} className='md:aspect-video object-contain border-2' alt='Meme' placeholder='blur' blurDataURL={process.env.NEXT_PUBLIC_IMAGEBLURDATA} />
+                <div onDoubleClick={props.handel_select_event} className="relative border-4 border-black p-2">
+                    <Swipe onSwipeLeft={props.handel_next_event} onSwipeRight={props.handel_previous_event}>
+                        <Image key={props.id} src={props.url} width={800} height={800} className='md:aspect-video object-contain border-2' alt='Meme' placeholder='blur' blurDataURL={process.env.NEXT_PUBLIC_IMAGEBLURDATA} />
+                    </Swipe>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
 Viewer.defaultProps = {
-    id:"xmm",
-    sno:0,
+    id: "xmm",
+    sno: 0,
     title: "This is a meme title",
     author: "unpopularcity17",
     score: "1010",

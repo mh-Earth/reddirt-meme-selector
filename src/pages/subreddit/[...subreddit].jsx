@@ -157,7 +157,7 @@ const SubReddit = () => {
                 <div className='w-fit p-2 '>
 
                     {
-                        subs.length === 0 ? <EmptyViewer /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1}  handel_next_event={handel_next} /> : "")
+                        subs.length === 0 ? <EmptyViewer /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1}  handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
 
                     }
                     <div className="w-full flex justify-between ">
