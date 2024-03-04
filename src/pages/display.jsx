@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight, faTimes, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 import NotFound from 'components/NotFound'
 import Alert from 'components/Alert'
-import EmptyViewer from 'components/EmptyViewer'
+// import EmptyViewer from 'components/EmptyViewer'
 import Loading from 'components/Loading'
+import NoMemeFound from 'components/NoMemeFound'
 
 
 const Display = () => {
@@ -23,7 +24,7 @@ const Display = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/getall`, { cache: "no-cache" })
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/getall?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache"})
 
 			.then((res) => res.json())
 			.then((data) => {
@@ -68,7 +69,7 @@ const Display = () => {
 
 	const handel_remove = () => {
 
-		const data = { submission_names: [] }
+		const data = { submission_names: [], api_key: process.env.NEXT_PUBLIC_API_KEY }
 
 
 		selectees.map((e) => {
@@ -77,7 +78,7 @@ const Display = () => {
 			]
 		})
 
-		let isDelete = confirm("Do you want to delete selected meme for forever??")
+		let isDelete = confirm("Do you want to delete selected meme(s) for forever??")
 		if (isDelete) {
 
 			setDeleting(true)
@@ -120,7 +121,7 @@ const Display = () => {
 						setDeleting(false)
 						setAlert(true)
 						setAlertType('danger')
-						setAlertMassage(` ${error.massage}`)
+						setAlertMassage(` ${error}`)
 					}
 				})
 		}
@@ -136,8 +137,8 @@ const Display = () => {
 	if (loading)
 		return (
 			<>
-			{alert ? <Alert handel_close={handel_alert} massage={alertMassage} type={alertType} /> : ""}
-			<Loading />
+				{alert ? <Alert handel_close={handel_alert} massage={alertMassage} type={alertType} /> : ""}
+				<Loading />
 			</>
 		)
 
@@ -152,10 +153,10 @@ const Display = () => {
 				<div className='w-fit p-2 '>
 
 					{
-                        subs.length === 0 ? <EmptyViewer /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1}  handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
+						subs.length === 0 ? <NoMemeFound /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1} handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
 
 					}
-					<div className="w-full flex justify-between ">
+					<div className={`w-full flex justify-between ${subs.length === 0 ? 'hidden':''}`}>
 						<div className=" md:ml-20 ">
 							<button onClick={handel_previous} className="bg-transparent hover:bg-black text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent  duration-100 border-r-0">
 								<FontAwesomeIcon icon={faChevronLeft} className="mx-1" />
@@ -176,10 +177,11 @@ const Display = () => {
 				</div>
 
 				{/* Select and other sections */}
-				<div className="md:h-[60vh] flex flex-col md:w-2/6 w-full md:mx-2 mt-20 md:border-4 border-2 border-black">
+				
+				<div className="md:h-[60vh] flex flex-col md:w-2/6 w-full md:mx-2 mt-20 ">
 					<p className='text-xl md:text-4xl font-semibold my-4 text-center sticky top-0 z-50 bg-white'>Will Delete!!</p>
-					<div className=" h-full">
-						<div className="h-full max-h-[435px] overflow-y-scroll flex flex-wrap justify-center">
+					<div className="overflow-y-auto">
+						<div className="h-full flex flex-wrap justify-center">
 
 							{
 								selectees.length === 0 ? <NotFound /> : selectees.map((e, index) => {
@@ -219,7 +221,7 @@ const Display = () => {
 			</div>
 			{/* Info box */}
 			{subs.length !== 0 && subs[meme_index_count] !== undefined ? (
-				<div className="mx-2 md:mx-20">
+				<div className="m-4 md:mx-20">
 					<h2 className='text-4xl font-semibold uppercase '>Info</h2>
 					<details>
 						<div className="flex justify-start md:flex-row flex-col gap-20 my-3">

@@ -27,8 +27,7 @@ const SubReddit = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}`, { cache: "no-cache" })
-            // fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/test`)
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache"})
             .then((res) => res.json())
             .then((data) => {
                 setLoading(false);
@@ -73,7 +72,7 @@ const SubReddit = () => {
 
     const handel_save = () => {
 
-        const data = { submission_names: [] }
+        const data = { submission_names: [] ,api_key:process.env.NEXT_PUBLIC_API_KEY}
 
 
         selectees.map((e) => {
@@ -126,7 +125,7 @@ const SubReddit = () => {
                     setSaving(false)
                     setAlert(true)
                     setAlertType('danger')
-                    setAlertMassage(` ${error.massage}`)
+                    setAlertMassage(` ${'Failed to save your meme(s)'}`)
                 }
             })
     }
@@ -224,7 +223,7 @@ const SubReddit = () => {
             </div>
             {/* Info box */}
             {subs.length !== 0 && subs[meme_index_count] !== undefined ? (
-                <div className="mx-2 md:mx-20">
+                <div className="mx-2 md:mx-20 my-5">
                     <h2 className='text-4xl font-semibold uppercase '>Info</h2>
                     <details>
                         <div className="flex justify-start md:flex-row flex-col gap-20 my-3">
@@ -255,9 +254,7 @@ const SubReddit = () => {
                                 <p className='text-2xl  font-semibold ' >Selectees</p>
                                 <p>{selectees.length === 0 ? "0 selectees found" : selectees.map(e => {
                                     return (
-
                                         <p key={e.name}>{e.name},</p>
-
                                     )
                                 }
                                 )}</p>
