@@ -87,16 +87,16 @@ const Settings = () => {
 
 				<div className="container md:border-2 border-black p-4 md:p-8 md:shadow-lg">
 
-					<h1 className='text-4xl font-medium text-center mb-2' >Settings</h1>
+					<h1 className='md:text-4xl text-3xl font-medium text-center mb-2' >Modifiy you search type</h1>
 					<div className="">
-						<p className='md:text-2xl text-xl font-medium' >Select Limit</p>
+						<p className='md:text-2xl text-xl font-medium' >Limit</p>
 						<div className="flex items-center mb-5">
 							<label className='text-xl m-2' htmlFor="limit">Limit</label>
-							<input onChange={handel_limit} value={Limit} className='w-full' type="range" name="limit" id="limit" min="10" max="100" />
+							<input onChange={handel_limit} value={Limit} className='w-full' step={5} type="range" name="limit" id="limit" min="10" max="100" />
 							<p className='text-xl font-medium mx-2' >{Limit}</p>
 						</div>
 						<div>
-							<p className='md:text-2xl text-xl mb-2 font-medium'>Select Mode</p>
+							<p className='md:text-2xl text-xl mb-2 font-medium'>Mode</p>
 							<div className="flex justify-between md:justify-normal">
 								<div onClick={handel_modes} className="text-xl font-medium">
 									<input onChange={()=>{}} className='mx-2 cursor-pointer' type="radio" id="new" name="mode" value="new" checked={mode === "new"} />

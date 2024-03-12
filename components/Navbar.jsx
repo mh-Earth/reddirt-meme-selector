@@ -28,7 +28,7 @@ const Navbar = () => {
                     <Link href={"/"} className="mr-8 md:block  hover:text-gray-900 text-black">Home</Link>
                     <Link href={"/about"} className="mr-8 md:block  hover:text-gray-900 text-black">About</Link>
                     <Link href={"/settings"} className="mr-8 md:block  hover:text-gray-900 text-black">Settings</Link>
-                    <Link href={"/display"} className="mr-8 md:block  hover:text-gray-900 text-black">Display</Link>
+                    <Link href={"/display"} className="mr-8 md:block  hover:text-gray-900 text-black">Saves</Link>
                 </nav>
                 <FontAwesomeIcon onClick={toggleNav} className=' md:hidden text-black' icon={faBars} size="lg" />
                 <div className={`md:hidden w-full text-lg ${navOpen ? " h-[183px]" : "h-0"} overflow-hidden duration-200 font-semibold`}>
@@ -36,7 +36,7 @@ const Navbar = () => {
                         <Link onClick={()=> setNavOpen(false)} href={"/"} className="py-2 text-black">Home</Link>
                         <Link onClick={()=> setNavOpen(false)} href={"/about"} className=" py-2 text-black">About</Link>
                         <Link onClick={()=> setNavOpen(false)} href={"/settings"} className=" py-2 text-black">Settings</Link>
-                        <Link onClick={()=> setNavOpen(false)} href={"/display"} className=" py-2  text-black">Display</Link>
+                        <Link onClick={()=> setNavOpen(false)} href={"/display"} className=" py-2  text-black">Saves</Link>
 
                     </div>
                 </div>

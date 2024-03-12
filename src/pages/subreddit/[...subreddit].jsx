@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight, faTimes, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 import NotFound from 'components/NotFound'
 import Alert from 'components/Alert'
-import EmptyViewer from 'components/EmptyViewer'
 import { useRouter } from 'next/router'
 import Loading from 'components/Loading'
+import NoMemeFound from 'components/NoMemeFound'
 
 
 const SubReddit = () => {
@@ -156,10 +156,10 @@ const SubReddit = () => {
                 <div className='w-fit p-2 '>
 
                     {
-                        subs.length === 0 ? <EmptyViewer /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1}  handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
+                        subs.length === 0 ? <NoMemeFound/> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1}  handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
 
                     }
-                    <div className="w-full flex justify-between ">
+                    <div className={`w-full flex justify-between ${subs.length === 0 ? 'hidden':''}`}>
                         <div className=" md:ml-20 ">
                             <button onClick={handel_previous} className="bg-transparent hover:bg-black text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent  duration-100 border-r-0">
                                 <FontAwesomeIcon icon={faChevronLeft} className="mx-1" />

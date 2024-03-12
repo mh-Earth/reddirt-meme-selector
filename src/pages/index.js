@@ -36,14 +36,11 @@ export default function Home() {
 					.then((data) => {
 						router.push(`subreddit/${reddit}/${data.mode}/${data.limit}`)
 					})
-
 				}
-
 				else {
 					setLoading(false);
 					setError(true)
 					setButtonMassage("")
-
 				}
 			});
 
@@ -59,9 +56,9 @@ export default function Home() {
 
 			<>
 
-				<section className="text-black w-screen md:h-screen h-[70vh] flex justify-center items-center">
+				<section className="text-black w-screen md:h-[90vh] h-[70vh] flex justify-center md:items-center">
 					<div className=" absolute w-5/6 h-5/6">
-						<Image src={reddit_logo} fill alt='reddit logo' className='relative backdrop-opacity-50' />
+						<Image src={reddit_logo} fill alt='reddit logo' className='relative ' />
 					</div>
 					<div className="relative w-full px-5 md:p-0 md:w-1/6 m-auto flex flex-col gap-5">
 						<input onChange={handleChange} type="text" id="name" name="name" className="w-full bg-gray-100 bg-opacity-60 rounded border border-black  text-base outline-none text-black py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" placeholder='Enter Subreddit' />
@@ -91,8 +88,8 @@ export default function Home() {
 
 	return (<>
 
-		<section className="text-black w-auto md:h-[90vh] h-[70vh] flex justify-center items-center">
-			<div className="absolute w-[80%] h-[80%]">
+		<section className="text-black w-screen md:h-[90vh] h-[70vh] flex justify-center md:items-center">
+			<div className=" absolute w-5/6 h-5/6">
 				<Image src={reddit_logo} fill alt='reddit logo' className='relative backdrop-opacity-50' />
 			</div>
 			<div className="relative w-full px-5 md:p-0 md:w-1/6 m-auto flex flex-col gap-5">
