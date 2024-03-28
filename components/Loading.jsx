@@ -31,7 +31,6 @@ const Loading = () => {
 
                 {/* Select and other sections */}
                 <div className=" md:h-[60vh] md:flex hidden flex-col md:w-2/6 w-full mx-2 mt-20 border-4 border-black">
-                    <p className='text-xl md:text-4xl font-semibold my-4 text-center sticky top-0 z-50 bg-white'>Selected Memes</p>
                     <div className=" h-full p-2">
                         <div className="h-full flex flex-wrap justify-center bg-slate-700 animate-pulse">
 

@@ -14,14 +14,18 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@hookform/resolvers": "^3.3.4",
     "@next/font": "13.4.2",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "next": "13.4.2",
+    "next-nprogress-bar": "^2.3.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-easy-swipe": "^0.0.23",
-    "sharp": "^0.32.1"
+    "react-hook-form": "^7.51.1",
+    "sharp": "^0.32.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
