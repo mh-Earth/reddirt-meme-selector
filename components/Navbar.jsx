@@ -7,8 +7,8 @@ const Navbar = () => {
 
     const [navOpen, setNavOpen] = useState(false)
     const toggleNav = () => {
-        
-        if (navOpen){
+
+        if (navOpen) {
             setNavOpen(false)
             return
         }
@@ -33,10 +33,10 @@ const Navbar = () => {
                 <FontAwesomeIcon onClick={toggleNav} className=' md:hidden text-black' icon={faBars} size="lg" />
                 <div className={`md:hidden w-full text-lg ${navOpen ? " h-[183px]" : "h-0"} overflow-hidden duration-200 font-semibold`}>
                     <div className=" flex flex-col justify-evenly w-full">
-                        <Link onClick={()=> setNavOpen(false)} href={"/"} className="py-2 text-black">Home</Link>
-                        <Link onClick={()=> setNavOpen(false)} href={"/about"} className=" py-2 text-black">About</Link>
-                        <Link onClick={()=> setNavOpen(false)} href={"/settings"} className=" py-2 text-black">Settings</Link>
-                        <Link onClick={()=> setNavOpen(false)} href={"/display"} className=" py-2  text-black">Saves</Link>
+                        <Link onClick={() => setNavOpen(false)} href={"/"} className="py-2 text-black">Home</Link>
+                        <Link onClick={() => setNavOpen(false)} href={"/about"} className="py-2 text-black">About</Link>
+                        <Link onClick={() => setNavOpen(false)} href={"/settings"} className="py-2 text-black">Settings</Link>
+                        <Link onClick={() => setNavOpen(false)} href={"/display"} className="py-2  text-black">Saves</Link>
 
                     </div>
                 </div>
