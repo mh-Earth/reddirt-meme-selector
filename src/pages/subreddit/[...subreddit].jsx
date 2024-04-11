@@ -9,7 +9,6 @@ import { useRouter } from 'next/router'
 import Loading from 'components/Loading'
 import NoMemeFound from 'components/NoMemeFound'
 
-
 const SubReddit = () => {
 
     const [subs, setSubs] = useState([])
@@ -25,9 +24,15 @@ const SubReddit = () => {
     const router = useRouter()
     const { subreddit } = router.query
 
+    const trigger_alert = (type, message) => {
+		setAlert(true)
+		setAlertType(type)
+		setAlertMassage(message)
+	}
+
     useEffect(() => {
         setLoading(true);
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache"})
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
             .then((res) => res.json())
             .then((data) => {
                 setLoading(false);
@@ -57,33 +62,47 @@ const SubReddit = () => {
     }
 
     const handel_select = () => {
+        const isUnique = selectees.every(sub => {
+            return sub.name !== subs[meme_index_count].name
+        })
+        if (isUnique) {
 
-        selectedIndex.current.push(meme_index_count)
-        setSelectees(
-            [
-                ...selectees, {
-                    name: subs[meme_index_count].name,
-                    url: subs[meme_index_count].url
-                }
-            ]
-        );
+            selectedIndex.current.push(meme_index_count)
+            setSelectees(
+                [
+                    ...selectees, {
+                        name: subs[meme_index_count].name,
+                        url: subs[meme_index_count].url,
+                        title:subs[meme_index_count].title
+                    }
+                ]
+            );
+        }
     }
 
 
     const handel_save = () => {
 
-        const data = { submission_names: [] ,api_key:process.env.NEXT_PUBLIC_API_KEY}
+        const data = { submissions: [], api_key: process.env.NEXT_PUBLIC_API_KEY, password: "" }
 
+
+        let password = prompt("Enter your password", '')
+
+        if (password != null) {
+            data.password = password
+        }
 
         selectees.map((e) => {
-            data.submission_names = [
-                ...data.submission_names, e.name
+            data.submissions = [
+                ...data.submissions, e
             ]
         })
 
+        console.log(selectees)
+        
 
         setSaving(true)
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/save`, {
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/save/reddit`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
@@ -91,26 +110,23 @@ const SubReddit = () => {
             .then((ok) => {
                 if (ok) {
                     setSaving(false)
-                    setAlert(true)
-                    setAlertMassage("Your memes has been saved successfully")
-
+                    trigger_alert('primary',"Your memes has been saved successfully")
+                    
                     selectees.map((selectee) => {
                         setSubs((prevSubs) => prevSubs.filter((sub) => sub.name !== selectee.name));
                     });
 
                     setSelectees([])
                     set_meme_index_count(0)
-
-
+                    
+                    
                 }
 
                 else {
 
                     setSaving(false)
-                    setAlert(true)
-                    setAlertMassage(` ${code} !! Something went wrong.`)
-                    setAlertType('danger')
-
+                    trigger_alert('danger',` ${code} !! Something went wrong.`)
+                    
                 }
 
             })
@@ -118,14 +134,10 @@ const SubReddit = () => {
 
                 if (error.response && error.response.status) {
                     setSaving(false)
-                    setAlert(true)
-                    setAlertType('danger')
-                    setAlertMassage(`${error.response.status}!! Something went wrong`)
+                    trigger_alert('danger',`${error.response.status}!! Something went wrong`)
                 } else {
                     setSaving(false)
-                    setAlert(true)
-                    setAlertType('danger')
-                    setAlertMassage(` ${'Failed to save your meme(s)'}`)
+                    trigger_alert('danger',` ${'Failed to save your meme(s)'}`)
                 }
             })
     }
@@ -156,10 +168,10 @@ const SubReddit = () => {
                 <div className='w-fit p-2 '>
 
                     {
-                        subs.length === 0 ? <NoMemeFound/> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1}  handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
+                        subs.length === 0 ? <NoMemeFound /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1} handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
 
                     }
-                    <div className={`w-full flex justify-between ${subs.length === 0 ? 'hidden':''}`}>
+                    <div className={`w-full flex justify-between ${subs.length === 0 ? 'hidden' : ''}`}>
                         <div className=" md:ml-20 ">
                             <button onClick={handel_previous} className="bg-transparent md:hover:bg-black text-black font-semibold md:hover:text-white py-2 px-4 border border-black md:hover:border-transparent  duration-100 border-r-0">
                                 <FontAwesomeIcon icon={faChevronLeft} className="mx-1" />
@@ -181,7 +193,7 @@ const SubReddit = () => {
 
                 {/* Select and other sections */}
                 <div className="md:h-[60vh] flex flex-col md:w-2/6 w-full md:mx-2 mt-20 md:border-4 border-2 border-black">
-                    <p className='text-xl md:text-4xl font-semibold my-4 text-center sticky top-0 z-50 bg-white'>Selected Memes</p>
+                    <p className='text-xl md:text-3xl font-semibold my-4 text-center top-0 z-50 bg-white'>Save Them...</p>
                     <div className=" h-full">
                         <div className="h-full max-h-[435px] overflow-y-scroll flex flex-wrap justify-center">
 
@@ -243,7 +255,7 @@ const SubReddit = () => {
                                 <p>Name - {subs[meme_index_count].name} </p>
                                 <p>Author - {subs[meme_index_count].author} </p>
                                 <p>ID - {subs[meme_index_count].id}</p>
-                                <p>url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url}</a></p>
+                                <p>Image Url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url.length > 25 ? subs[meme_index_count].url.slice(0,25) + "...": subs[meme_index_count].url }</a></p>
                                 <p>Upvote_ratio - {subs[meme_index_count].upvote_ratio}</p>
                                 <p>Score - {subs[meme_index_count].score}</p>
                                 <p>Created_at - {subs[meme_index_count].created_at}</p>

@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import Swipe from 'react-easy-swipe';
+import abbreviateNumber from 'utils/utils';
+
 
 const Viewer = (props) => {
 
@@ -17,14 +19,16 @@ const Viewer = (props) => {
                 <hr />
 
                 <FontAwesomeIcon size='3x' icon={faCaretUp} ></FontAwesomeIcon>
-                <p>{props.score}</p>
+                <center>
+                    <p>{abbreviateNumber(props.score)}</p>
+                </center>
                 <FontAwesomeIcon size='3x' icon={faCaretDown}></FontAwesomeIcon>
             </div>
 
 
             <div className="flex flex-col">
                 <div className="">
-                    <p className='font-semibold text-3xl md:text-4xl' >{props.title.length > 50 ? props.title.slice(0, 50) + "..." : props.title}</p>
+                    <p className='font-semibold text-3xl md:text-4xl' >{props.title.length > 40 ? props.title.slice(0, 40) + "..." : props.title}</p>
                     <p className=' text-sm text-gray-700'>{props.author}</p>
                 </div>
                 <div onDoubleClick={props.handel_select_event} className="relative border-4 border-black p-2">
@@ -38,11 +42,11 @@ const Viewer = (props) => {
 }
 
 Viewer.defaultProps = {
-    id: "xmm",
+    id: "reddit",
     sno: 0,
     title: "This is a meme title",
     author: "unpopularcity17",
-    score: "1010",
+    score: 40000000,
     url: "https://i.redd.it/06rto54jdf0b1.jpg"
 }
 

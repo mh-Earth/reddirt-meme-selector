@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Viewer from 'components/Viewer'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight, faTimes, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 import NotFound from 'components/NotFound'
 import Alert from 'components/Alert'
-// import EmptyViewer from 'components/EmptyViewer'
 import Loading from 'components/Loading'
 import NoMemeFound from 'components/NoMemeFound'
 
@@ -22,9 +21,16 @@ const Display = () => {
 	const [loading, setLoading] = useState(true)
 	const [RequestTime, setRequestTime] = useState()
 
+	const trigger_alert = (type, message) => {
+		setAlert(true)
+		setAlertType(type)
+		setAlertMassage(message)
+	}
+
+
 	useEffect(() => {
 		setLoading(true);
-		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/getall?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache"})
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/getall?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
 
 			.then((res) => res.json())
 			.then((data) => {
@@ -55,30 +61,28 @@ const Display = () => {
 	}
 
 	const handel_select = () => {
+		// selected_memes_index_count.
+		const isUnique = selectees.every(sub => {
+			return sub.name !== subs[meme_index_count].name
+		})
+		if (isUnique) {
+			setSelectees([...selectees, {name: subs[meme_index_count].name,url: subs[meme_index_count].url}]);
+		}}
 
-		setSelectees(
-			[
-				...selectees, {
-					name: subs[meme_index_count].name,
-					url: subs[meme_index_count].url
-				}
-			]
-		);
-	}
 
 	const handel_remove = () => {
-		const data = { submission_names: [], api_key: process.env.NEXT_PUBLIC_API_KEY, password:'' }
+		const data = { names: [], api_key: process.env.NEXT_PUBLIC_API_KEY, password: '' }
 
 		selectees.map((e) => {
-			data.submission_names = [
-				...data.submission_names, e.name
+			data.names = [
+				...data.names, e.name
 			]
 		})
 
 		let isDelete = confirm("Do you want to delete selected meme(s) for forever??")
 		if (isDelete) {
-			let password = prompt('Enter you password','')
-			if (password != null){
+			let password = prompt('Enter you password', '')
+			if (password != null) {
 				data.password = password
 			}
 
@@ -91,32 +95,29 @@ const Display = () => {
 				.then((ok) => {
 					if (ok) {
 						setDeleting(false)
-						setAlert(true)
-						setAlertMassage("Your memes has been delete successfully")
+						trigger_alert('primary',"Your meme(s) is gone successfully")
+						// Removeing deleted subs from all subs list
 						selectees.map((selectee) => {
 							setSubs((prevSubs) => prevSubs.filter((sub) => sub.name !== selectee.name));
 						});
+
 						setSelectees([])
 						set_meme_index_count(0)
 					}
 					else {
 						setDeleting(false)
 						setAlert(true)
-						setAlertMassage(` ${code} !! Something went wrong.`)
-						setAlertType('danger')
+						trigger_alert('danger',"Something went wrong.")
 					}
 				})
 				.catch((error) => {
 					if (error.response && error.response.status) {
 						setDeleting(false)
-						setAlert(true)
-						setAlertType('danger')
-						setAlertMassage(`${error.response.status}!! Something went wrong`)
+						trigger_alert('danger',`${error.response.status}!! Something went wrong`)
 					} else {
 						setDeleting(false)
 						setAlert(true)
-						setAlertType('danger')
-						setAlertMassage(` ${error}`)
+						trigger_alert('danger',` ${error}`)
 					}
 				})
 		}
@@ -145,10 +146,10 @@ const Display = () => {
 				<div className='w-fit p-2 '>
 
 					{
-						subs.length === 0 ? <NoMemeFound /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1} handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
+						subs.length === 0 ? <NoMemeFound /> : (subs[meme_index_count] !== undefined ? <Viewer key={subs[meme_index_count].id} id={subs[meme_index_count].id} title={subs[meme_index_count].title_og} author={subs[meme_index_count].author} score={subs[meme_index_count].score} url={subs[meme_index_count].url} sno={meme_index_count + 1} handel_next_event={handel_next} handel_previous_event={handel_previous} handel_select_event={handel_select} /> : "")
 
 					}
-					<div className={`w-full flex justify-between ${subs.length === 0 ? 'hidden':''}`}>
+					<div className={`w-full flex justify-between ${subs.length === 0 ? 'hidden' : ''}`}>
 						<div className=" md:ml-20 ">
 							<button onClick={handel_previous} className="bg-transparent md:hover:bg-black text-black font-semibold md:hover:text-white py-2 px-4 border border-black md:hover:border-transparent  duration-100 border-r-0">
 								<FontAwesomeIcon icon={faChevronLeft} className="mx-1" />
@@ -160,7 +161,9 @@ const Display = () => {
 								<FontAwesomeIcon icon={faChevronRight} className="mx-1" />
 							</button>
 						</div>
-						<div className="">
+						<div className="gap-3">
+							
+
 							<button onClick={handel_select} className="bg-transparent md:hover:bg-black text-black font-semibold md:hover:text-white py-2 px-4 border border-black md:hover:border-transparent duration-100">
 								<FontAwesomeIcon icon={faPlus} className="mx-1" />
 							</button>
@@ -169,7 +172,7 @@ const Display = () => {
 				</div>
 
 				{/* Select and other sections */}
-				
+
 				<div className="md:h-[60vh] flex flex-col md:w-2/6 w-full md:mx-2 mt-20 ">
 					<p className='text-xl md:text-4xl font-semibold my-4 text-center sticky top-0 z-50 bg-white'>Will Delete!!</p>
 					<div className="overflow-y-auto">
@@ -229,11 +232,12 @@ const Display = () => {
 								<p>Name - {subs[meme_index_count].name} </p>
 								<p>Author - {subs[meme_index_count].author} </p>
 								<p>ID - {subs[meme_index_count].id}</p>
-								<p>url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url}</a></p>
+								<p>Tags - {subs[meme_index_count].tags}</p>
+								<p>Image Url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url.length > 25 ? subs[meme_index_count].url.slice(0,25) + "...": subs[meme_index_count].url }</a></p>
 								<p>Upvote_ratio - {subs[meme_index_count].upvote_ratio}</p>
 								<p>Score - {subs[meme_index_count].score}</p>
 								<p>Created_at - {subs[meme_index_count].created_at}</p>
-								<p>Title - {subs[meme_index_count].title}</p>
+								<p>Title - {subs[meme_index_count].title_og}</p>
 							</div>
 
 							<div>

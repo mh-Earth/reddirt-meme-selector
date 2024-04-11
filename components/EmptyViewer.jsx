@@ -1,5 +1,4 @@
 import React from 'react'
-import empty from "../public/empty.jpg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 

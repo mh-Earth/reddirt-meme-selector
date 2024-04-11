@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Alert from 'components/Alert'
-import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 const schema = z.object({
-    username: z.string().min(3, { message: 'Username must contain at most 3 character(s)' }).max(16, { message: 'Username must contain at most 16 character(s)' }),
-    password: z.string().min(16, { message: 'Password must contain at most 16 character(s)' }).max(32, { message: 'Password must contain at most 32 character(s)' })
+    username: z.string().min(3, { message: 'Username must contain at most 3 character(s)' }).max(16, { message: 'Username cannot contain more then 16 character(s)' }),
+    password: z.string().min(16, { message: 'Password must contain at most 16 character(s)' }).max(32, { message: 'Password cannot contain more then 32 character(s)' })
 });
 
 const Admin = () => {
@@ -32,7 +31,7 @@ const Admin = () => {
         fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
             .then((res) => res.json())
             .then((data) => {
-                if (data !== null) {
+                if (data.code !== 404) {
                     setIsUserExites(true)
                     setUsername(data.username)
                 }
@@ -62,9 +61,7 @@ const Admin = () => {
             "api_key": process.env.NEXT_PUBLIC_API_KEY
         }
 
-        console.log(data)
-
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin`, {
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin/create`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
@@ -72,7 +69,7 @@ const Admin = () => {
             .then((res) => res.status)
             .then((d) => {
                 if (d != '200') {
-                    trigger_alert('danger', 'Fail to add user.This action will be reported')
+                    trigger_alert('danger', 'Fail to add admin.')
                 }
                 else {
                     setIsUserExites(true)
@@ -82,8 +79,10 @@ const Admin = () => {
             }).catch((error) => {
 
                 if (error.response && error.response.status) {
+                    console.log(error.response)
                     trigger_alert('danger', `${error.response.status}!! Something went wrong`)
                 } else {
+                    console.log(error.response)
                     trigger_alert('danger', ` ${'Failed to save your change(s)'}`)
                 }
             });
@@ -122,7 +121,7 @@ const Admin = () => {
 
         }
         else {
-            trigger_alert('danger', 'Worng password. This action will be reported')
+            trigger_alert('danger', 'Control your mouse bitch')
 
         }
 
