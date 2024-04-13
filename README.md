@@ -1,7 +1,5 @@
 # Reddit Meme Selector
 
-## About
-
 Welcome to the [Reddit Meme Selector!](https://reddit-meme-selector.vercel.app)
 
 ### Description
@@ -36,7 +34,7 @@ This project is born from a love for coding and the endless creativity of intern
 
 #### Front-End
 
-- **Next.js 12**: The website's front-end is built using [Next.js 14](https://nextjs.org/), a powerful and modern framework for React.
+- **Next.js 14**: The website's front-end is built using [Next.js 14](https://nextjs.org/), a powerful and modern framework for React.
   
 - **Tailwind CSS**: Styling is done using Tailwind CSS, providing a clean and responsive user interface across all devices.
 
