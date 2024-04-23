@@ -60,14 +60,34 @@ const Display = () => {
 
 	}
 
+	// keyboard key down events
+	const handelKeyDown = (event) => {
+		switch (event.key) {
+			case 'Enter':
+				handel_select()
+				break;
+			case 'ArrowLeft':
+				handel_previous()
+				break;
+			case 'ArrowRight':
+				handel_next()
+				break;
+			default:
+				break;
+		}
+
+	}
+
+
 	const handel_select = () => {
 		// selected_memes_index_count.
 		const isUnique = selectees.every(sub => {
 			return sub.name !== subs[meme_index_count].name
 		})
 		if (isUnique) {
-			setSelectees([...selectees, {name: subs[meme_index_count].name,url: subs[meme_index_count].url}]);
-		}}
+			setSelectees([...selectees, { name: subs[meme_index_count].name, url: subs[meme_index_count].url }]);
+		}
+	}
 
 
 	const handel_remove = () => {
@@ -95,7 +115,7 @@ const Display = () => {
 				.then((ok) => {
 					if (ok) {
 						setDeleting(false)
-						trigger_alert('primary',"Your meme(s) is gone successfully")
+						trigger_alert('primary', "Your meme(s) is gone successfully")
 						// Removeing deleted subs from all subs list
 						selectees.map((selectee) => {
 							setSubs((prevSubs) => prevSubs.filter((sub) => sub.name !== selectee.name));
@@ -106,18 +126,16 @@ const Display = () => {
 					}
 					else {
 						setDeleting(false)
-						setAlert(true)
-						trigger_alert('danger',"Something went wrong.")
+						trigger_alert('danger', "Something went wrong.")
 					}
 				})
 				.catch((error) => {
 					if (error.response && error.response.status) {
 						setDeleting(false)
-						trigger_alert('danger',`${error.response.status}!! Something went wrong`)
+						trigger_alert('danger', `${error.response.status}!! Something went wrong`)
 					} else {
 						setDeleting(false)
-						setAlert(true)
-						trigger_alert('danger',` ${error}`)
+						trigger_alert('danger', ` ${error}`)
 					}
 				})
 		}
@@ -137,7 +155,7 @@ const Display = () => {
 
 
 	return (
-		<div className="flex flex-col">
+		<div onKeyDown={handelKeyDown} className="flex flex-col">
 
 			{alert ? <Alert handel_close={handel_alert} massage={alertMassage} type={alertType} /> : ""}
 
@@ -156,13 +174,12 @@ const Display = () => {
 								{/* Prev */}
 							</button>
 							<button onClick={handel_next} className="bg-transparent md:hover:bg-black text-black font-semibold md:hover:text-white py-2 px-4 border border-black md:hover:border-transparent  duration-100 border-l-0">
-
 								{/* Next */}
 								<FontAwesomeIcon icon={faChevronRight} className="mx-1" />
 							</button>
 						</div>
 						<div className="gap-3">
-							
+
 
 							<button onClick={handel_select} className="bg-transparent md:hover:bg-black text-black font-semibold md:hover:text-white py-2 px-4 border border-black md:hover:border-transparent duration-100">
 								<FontAwesomeIcon icon={faPlus} className="mx-1" />
@@ -233,7 +250,7 @@ const Display = () => {
 								<p>Author - {subs[meme_index_count].author} </p>
 								<p>ID - {subs[meme_index_count].id}</p>
 								<p>Tags - {subs[meme_index_count].tags}</p>
-								<p>Image Url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url.length > 25 ? subs[meme_index_count].url.slice(0,25) + "...": subs[meme_index_count].url }</a></p>
+								<p>Image Url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url.length > 25 ? subs[meme_index_count].url.slice(0, 25) + "..." : subs[meme_index_count].url}</a></p>
 								<p>Upvote_ratio - {subs[meme_index_count].upvote_ratio}</p>
 								<p>Score - {subs[meme_index_count].score}</p>
 								<p>Created_at - {subs[meme_index_count].created_at}</p>

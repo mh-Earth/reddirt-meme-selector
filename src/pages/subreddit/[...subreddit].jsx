@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Viewer from 'components/Viewer'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,28 +18,26 @@ const SubReddit = () => {
     const [alert, setAlert] = useState(false)
     const [alertType, setAlertType] = useState("primary")
     const [alertMassage, setAlertMassage] = useState("")
-    const selectedIndex = useRef([])
     const [loading, setLoading] = useState(true)
     const [RequestTime, setRequestTime] = useState()
     const router = useRouter()
     const { subreddit } = router.query
 
     const trigger_alert = (type, message) => {
-		setAlert(true)
-		setAlertType(type)
-		setAlertMassage(message)
-	}
+        setAlert(true)
+        setAlertType(type)
+        setAlertMassage(message)
+    }
 
     useEffect(() => {
         setLoading(true);
         fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
-            .then((res) => res.json())
-            .then((data) => {
-                setLoading(false);
-                setSubs(data.submission)
-                setRequestTime(data.time)
-            });
-
+        .then((res) => res.json())
+        .then((data) => {
+            setLoading(false);
+            setSubs(data.submission)
+            setRequestTime(data.time)
+        });
     }, []);
 
 
@@ -67,13 +65,12 @@ const SubReddit = () => {
         })
         if (isUnique) {
 
-            selectedIndex.current.push(meme_index_count)
             setSelectees(
                 [
                     ...selectees, {
                         name: subs[meme_index_count].name,
                         url: subs[meme_index_count].url,
-                        title:subs[meme_index_count].title
+                        title: subs[meme_index_count].title
                     }
                 ]
             );
@@ -99,7 +96,7 @@ const SubReddit = () => {
         })
 
         console.log(selectees)
-        
+
 
         setSaving(true)
         fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/save/reddit`, {
@@ -110,23 +107,23 @@ const SubReddit = () => {
             .then((ok) => {
                 if (ok) {
                     setSaving(false)
-                    trigger_alert('primary',"Your memes has been saved successfully")
-                    
+                    trigger_alert('primary', "Your memes has been saved successfully")
+
                     selectees.map((selectee) => {
                         setSubs((prevSubs) => prevSubs.filter((sub) => sub.name !== selectee.name));
                     });
 
                     setSelectees([])
                     set_meme_index_count(0)
-                    
-                    
+
+
                 }
 
                 else {
 
                     setSaving(false)
-                    trigger_alert('danger',` ${code} !! Something went wrong.`)
-                    
+                    trigger_alert('danger', ` ${code} !! Something went wrong.`)
+
                 }
 
             })
@@ -134,14 +131,31 @@ const SubReddit = () => {
 
                 if (error.response && error.response.status) {
                     setSaving(false)
-                    trigger_alert('danger',`${error.response.status}!! Something went wrong`)
+                    trigger_alert('danger', `${error.response.status}!! Something went wrong`)
                 } else {
                     setSaving(false)
-                    trigger_alert('danger',` ${'Failed to save your meme(s)'}`)
+                    trigger_alert('danger', ` ${'Failed to save your meme(s)'}`)
                 }
             })
     }
 
+    // keyboard key down events
+    const handelKeyDown = (event) => {
+        switch (event.key) {
+            case 'Enter':
+                handel_select()
+                break;
+            case 'ArrowLeft':
+                handel_previous()
+                break;
+            case 'ArrowRight':
+                handel_next()
+                break;
+            default:
+                break;
+        }
+
+    }
 
 
     const handel_alert = () => {
@@ -159,7 +173,7 @@ const SubReddit = () => {
 
 
     return (
-        <div className="flex flex-col">
+        <div onKeyDown={handelKeyDown} className="flex flex-col">
 
             {alert ? <Alert handel_close={handel_alert} massage={alertMassage} type={alertType} /> : ""}
 
@@ -255,7 +269,7 @@ const SubReddit = () => {
                                 <p>Name - {subs[meme_index_count].name} </p>
                                 <p>Author - {subs[meme_index_count].author} </p>
                                 <p>ID - {subs[meme_index_count].id}</p>
-                                <p>Image Url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url.length > 25 ? subs[meme_index_count].url.slice(0,25) + "...": subs[meme_index_count].url }</a></p>
+                                <p>Image Url - <a href={subs[meme_index_count].url}> {subs[meme_index_count].url.length > 25 ? subs[meme_index_count].url.slice(0, 25) + "..." : subs[meme_index_count].url}</a></p>
                                 <p>Upvote_ratio - {subs[meme_index_count].upvote_ratio}</p>
                                 <p>Score - {subs[meme_index_count].score}</p>
                                 <p>Created_at - {subs[meme_index_count].created_at}</p>
