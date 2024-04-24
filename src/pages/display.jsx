@@ -246,6 +246,7 @@ const Display = () => {
 
 							<div>
 								<p className='text-2xl  font-semibold ' >Post-info</p>
+								<p>Id - {meme_index_count + 1}</p>
 								<p>Name - {subs[meme_index_count].name} </p>
 								<p>Author - {subs[meme_index_count].author} </p>
 								<p>ID - {subs[meme_index_count].id}</p>
