@@ -26,12 +26,12 @@ const About = () => {
         <p className="mb-4">
           This project is born from a love for coding and the endless creativity of internet memes.
           By combining these interests, the Reddit Meme Selector offers a unique platform to indulge in both worlds.
-          It's not just about memes; it's about connecting with the vibrant Reddit meme community and sharing the best of their content.
+          It&apos;s not just about memes; it&apos;s about connecting with the vibrant Reddit meme community and sharing the best of their content.
         </p>
 
         <h2 className="text-xl font-bold mb-2">Why Reddit Memes?</h2>
         <p className="mb-4">
-          Reddit is a goldmine of memes, constantly refreshed by its vibrant community. It's the perfect source for fresh, entertaining, and sometimes unexpected content that keeps us coming back for more.
+          Reddit is a goldmine of memes, constantly refreshed by its vibrant community. It&apos;s the perfect source for fresh, entertaining, and sometimes unexpected content that keeps us coming back for more.
         </p>
 
         <h2 className="text-2xl font-bold mb-2">Features</h2>
@@ -58,7 +58,7 @@ const About = () => {
 
         <h3 className="text-lg font-bold mb-2">Front-End</h3>
         <ul className="list-disc pl-6 mb-4">
-          <li>Next.js 14: The website's front-end is built using Next.js 14, a powerful and modern framework for React.</li>
+          <li>Next.js 14: The website&apos;s front-end is built using Next.js 14, a powerful and modern framework for React.</li>
           <li>Tailwind CSS: Styling is done using Tailwind CSS, providing a clean and responsive user interface across all devices.</li>
         </ul>
 
@@ -76,7 +76,7 @@ const About = () => {
 
 
         <p>
-          Thank you for visiting the Reddit Meme Selector. Enjoy the memes as much as I've enjoyed creating this project!
+          Thank you for visiting the Reddit Meme Selector. Enjoy the memes as much as I&apos;ve enjoyed creating this project!
         </p>
 
         <p className="text-gray-600 text-sm mt-8">Apologies for any mistakes in the content or functionality of this site.
