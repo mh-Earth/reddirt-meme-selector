@@ -1,6 +1,6 @@
 // Abbreviate large numbers into short forms like "2k" for 2000
 
-function abbreviateNumber(number) {
+export function abbreviateNumber(number) {
     // Check if the number is greater than or equal to 1 million
     if (number >= 1e6) {
       return (number / 1e6).toFixed(1) + 'M'; // Convert to millions (1M, 2.5M, etc.)
@@ -14,6 +14,15 @@ function abbreviateNumber(number) {
       return number.toString();
     }
   }
+
+  export function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+    return result;
+  }
   
-  export default abbreviateNumber;
   

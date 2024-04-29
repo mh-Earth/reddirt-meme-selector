@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import Swipe from 'react-easy-swipe';
-import abbreviateNumber from 'utils/utils';
+import {abbreviateNumber} from 'utils/utils';
 
 
 const Viewer = (props) => {

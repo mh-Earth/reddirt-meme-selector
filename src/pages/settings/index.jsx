@@ -10,7 +10,7 @@ const Settings = () => {
 	const [is_reversed, setIs_reversed] = useState(false)
 	const [saving, setSaving] = useState(false)
 	const [reseting, setReseting] = useState(false)
-
+	const [hasAdmin,setHasAdmin] = useState()
 	const [alert, setAlert] = useState(false)
 	const [alertType, setAlertType] = useState("primary")
 	const [alertMassage, setAlertMassage] = useState("")
@@ -22,7 +22,6 @@ const Settings = () => {
 		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/settings?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data)
 				setLimit(data.limit)
 				setMode(data.mode)
 				setIs_reversed(data.is_reversed)
@@ -36,13 +35,47 @@ const Settings = () => {
 					trigger_alert('danger', ` ${'Failed to load your settings'}`)
 				}
 			});
+
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin/check?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
+			.then((res) => res.json())
+			.then((data) => {
+				setHasAdmin(data.admin)
+			});
 	}, [])
 
 	const handel_limit = (e) => { setLimit(e.target.value) }
 	const handel_modes = (e) => { setMode(e.target.value) }
 	const handel_is_reversed = (e) => { setIs_reversed(!is_reversed) }
 	const handel_alert = () => { setAlert(false) }
-	const handel_admin_view = () => {router.push('settings/admin')}
+
+	const handel_admin_view = () => {
+		let password = prompt("Enter Password", "")
+		if (password != null) {
+			// get a gentarated url 
+			const data = {"password":password}
+			fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin/genarate_url?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, {
+				method: "POST",
+				body: JSON.stringify(data),
+				headers: { "Content-Type": "application/json" }
+			}).then((res) => res.json())
+				.then((data) => {
+					router.push(`admin/${data.slug}`)
+
+				}).catch((error) => {
+					if (error.response && error.response.status) {
+						setReseting(false)
+						trigger_alert('danger', `${error.response.status}!! Something went wrong`)
+
+					} else {
+						setReseting(false)
+						trigger_alert('danger', ` ${'Failed to load your settings'}`)
+					}
+				});
+		}
+
+	}
+
+
 	const trigger_alert = (type, message) => {
 		setAlert(true)
 		setAlertType(type)
@@ -101,6 +134,10 @@ const Settings = () => {
 
 	}
 
+	const handel_create_admin = () =>{
+		router.push('admin/create')
+	}
+
 
 	return (
 		<>
@@ -114,7 +151,7 @@ const Settings = () => {
 						<p className='md:text-xl text-lg font-medium' >Limit</p>
 						<div className="flex items-center mb-1">
 							<label className='text-xl m-2' htmlFor="limit">Limit</label>
-							<input onChange={handel_limit} value={Limit} className='w-full' type="range" name="limit" id="limit" min="10" max="100" />
+							<input onChange={handel_limit} value={Limit} className='w-full cursor-pointer' type="range" name="limit" id="limit" min="10" max="100" />
 							<p className='text-xl font-medium mx-2' >{Limit}</p>
 						</div>
 						<div>
@@ -169,8 +206,8 @@ const Settings = () => {
 						}
 					</div>
 				</div>
-
-				<div className="container md:border-2 border-red-700 m-4 p-4 md:p-7 md:shadow-lg">
+				{ hasAdmin ? (
+					<div className="container md:border-2 border-red-700 m-4 p-4 md:p-7 md:shadow-lg">
 
 					<div className="flex w-full justify-between items-center">
 						<div>
@@ -179,10 +216,30 @@ const Settings = () => {
 						</div>
 
 						<button onClick={handel_admin_view} className="bg-transparent text-black font-semibold  py-2 px-4 border border-black md:hover:border-black duration-100 bottom-0">View</button>
-						
+
 					</div>
-					
+
 				</div>
+
+				):
+				(
+					<div className="container md:border-2 border-green-700 m-4 p-4 md:p-7 md:shadow-lg">
+
+					<div className="flex w-full justify-between items-center">
+						<div>
+							<p className='text-xl font-bold ' >Add Admin</p>
+							{/* <p className='leading-none text-sm text-gray-600 my-0'>Add Admin</p> */}
+						</div>
+
+						<button onClick={handel_create_admin} className="bg-transparent text-black font-semibold  py-2 px-4 border border-black md:hover:border-black duration-100 bottom-0">Add</button>
+
+					</div>
+
+				</div>
+					
+				)
+
+				}
 
 			</div>
 		</>

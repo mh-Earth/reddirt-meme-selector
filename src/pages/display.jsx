@@ -20,6 +20,8 @@ const Display = () => {
 	const [alertMassage, setAlertMassage] = useState("")
 	const [loading, setLoading] = useState(true)
 	const [RequestTime, setRequestTime] = useState()
+	const [hasAdmin,setHasAdmin] = useState(false)
+
 
 	const trigger_alert = (type, message) => {
 		setAlert(true)
@@ -37,7 +39,17 @@ const Display = () => {
 				setLoading(false);
 				setSubs(data.submission)
 				setRequestTime(data.time)
+				setHasAdmin(data.hasAdmin)
 			});
+
+		// fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
+
+		// 	.then((res) => res.json())
+		// 	.then((data) => {
+		// 		setLoading(false);
+		// 		setSubs(data.submission)
+		// 		setRequestTime(data.time)
+		// 	});
 
 	}, []);
 
@@ -216,7 +228,7 @@ const Display = () => {
 					</div>
 					{/* save button */}
 					{
-						selectees.length === 0 ? "" : (
+						selectees.length !== 0 && hasAdmin ? (
 
 							<div className="w-full flex justify-end p-2">
 								{
@@ -226,6 +238,8 @@ const Display = () => {
 									</svg></button> : <button onClick={handel_remove} className="bg-transparent md:hover:bg-black text-black font-semibold md:hover:text-white py-2 px-4 border border-black md:hover:border-transparent rounded duration-100 bottom-0"><FontAwesomeIcon icon={faCheck} className="mx-1" /></button>
 								}
 							</div>
+						) : (
+							<center>Need to create admin user!!</center>
 						)
 					}
 				</div>
