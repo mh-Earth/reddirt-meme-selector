@@ -228,9 +228,10 @@ const Display = () => {
 					</div>
 					{/* save button */}
 					{
-						selectees.length !== 0 && hasAdmin ? (
+						selectees.length !== 0 ? (
+							hasAdmin ? (
 
-							<div className="w-full flex justify-end p-2">
+								<div className="w-full flex justify-end p-2">
 								{
 									deleting ? <button onClick={handel_remove} className="bg-transparent md:hover:bg-black text-black font-semibold md:hover:text-white py-2 px-4 border border-black md:hover:border-transparent rounded duration-100 bottom-0"><svg aria-hidden="true" className="w-5 h-5 text-gray-200 animate-spin dark:text-black fill-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -238,8 +239,12 @@ const Display = () => {
 									</svg></button> : <button onClick={handel_remove} className="bg-transparent md:hover:bg-black text-black font-semibold md:hover:text-white py-2 px-4 border border-black md:hover:border-transparent rounded duration-100 bottom-0"><FontAwesomeIcon icon={faCheck} className="mx-1" /></button>
 								}
 							</div>
+							):(
+
+								<center>Need to create admin user!!</center>
+							)
 						) : (
-							<center>Need to create admin user!!</center>
+							<></>
 						)
 					}
 				</div>

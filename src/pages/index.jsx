@@ -95,9 +95,9 @@ export default function Home() {
 			<div className=" absolute w-5/6 h-5/6">
 				<Image src={reddit_logo} fill alt='reddit logo' className='relative backdrop-opacity-50' />
 			</div>
-			<div className="relative w-full px-5 md:p-0 md:w-1/6 m-auto flex flex-col gap-5">
+			<div className="relative w-full px-5 md:p-0 md:w-1/6 m-auto flex flex-col gap-2">
 				<input onKeyDown={handelKeyDown} onChange={handleChange} type="text" id="name" name="name" className="focus:bg-gray-50 w-full bg-transparent rounded-sm border border-1 border-black  text-base outline-none text-black py-2 px-3 focus:border-orange-500 focus:shadow-sm focus:rounded-md transition-all shadow-orange-500 " placeholder='suuuu reddit' />
-				<p className={`text-red-700 ${error ? "block" : "hidden"}  font-semibold px-5`} > &quot;{temReddit}&quot; <span className='text-red-700'> dose to exits!! </span></p>
+				<p className={`text-red-700 w-fit inline-block mx-auto	 ${error ? "block" : "hidden"}  font-semibold text-center`} > &quot;{temReddit}&quot; <span className='text-red-700'> dose to exits!! </span></p>
 				<button disabled={isLoading} onClick={handelSearch} className="flex mx-auto text-white bg-red-400 border-0 py-1 px-5  hover:bg-red-500 rounded text-lg justify-center items-center">
 					Reddit
 				</button>

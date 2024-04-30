@@ -59,7 +59,15 @@ const Settings = () => {
 				headers: { "Content-Type": "application/json" }
 			}).then((res) => res.json())
 				.then((data) => {
-					router.push(`admin/${data.slug}`)
+					if (data.slug === undefined){
+						setReseting(false)
+						trigger_alert("danger","Worng password!!")
+
+					}
+					else{
+						router.push(`admin/${data.slug}`)
+
+					}
 
 				}).catch((error) => {
 					if (error.response && error.response.status) {
@@ -181,7 +189,7 @@ const Settings = () => {
 					<div className="">
 						<p className='md:text-xl text-xl font-medium'>Order</p>
 						<div onClick={handel_is_reversed} className="text-xl font-medium mx-4">
-							<label title='For something i cannot tell (TODO)' htmlFor="is_reversed">Reversed-order</label>
+							<label title='For something i cannot tell (TODO)' htmlFor="is_reversed">Reversed</label>
 							<input onChange={() => { }} className='mx-2 cursor-pointer' type="checkbox" id="is_reversed" name="is_reversed" checked={is_reversed} />
 						</div>
 						<div>
