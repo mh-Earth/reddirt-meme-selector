@@ -26,12 +26,12 @@ export default function Home() {
 		setLoading(true);
 		setError(false)
 		setTemReddit(reddit)
-		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/check/${reddit}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/check/${reddit}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
 			.then((res) => res.status)
 			.then((code) => {
 				setButtonMassage("Drive into anything")
 				if (code === 200) {
-					fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/settings?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
+					fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/settings?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
 						.then((res) => res.json())
 						.then((data) => {
 							router.push(`subreddit/${reddit}/${data.mode}/${data.limit}`)

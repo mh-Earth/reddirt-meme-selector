@@ -19,7 +19,7 @@ const Settings = () => {
 	useEffect(() => {
 
 
-		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/settings?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/settings?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
 			.then((res) => res.json())
 			.then((data) => {
 				setLimit(data.limit)
@@ -36,7 +36,7 @@ const Settings = () => {
 				}
 			});
 
-		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin/check?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/admin/check?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
 			.then((res) => res.json())
 			.then((data) => {
 				setHasAdmin(data.admin)
@@ -53,7 +53,7 @@ const Settings = () => {
 		if (password != null) {
 			// get a gentarated url 
 			const data = {"password":password}
-			fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin/genarate_url?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, {
+			fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/admin/genarate_url?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, {
 				method: "POST",
 				body: JSON.stringify(data),
 				headers: { "Content-Type": "application/json" }
@@ -92,7 +92,7 @@ const Settings = () => {
 
 	const handel_reset = () => {
 		setReseting(true)
-		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/settings?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/settings?api_key=${process.env.NEXT_PUBLIC_API_KEY}`)
 			.then((res) => res.json())
 			.then((data) => {
 				setLimit(data.limit)
@@ -120,7 +120,7 @@ const Settings = () => {
 			"api_key": process.env.NEXT_PUBLIC_API_KEY
 		}
 
-		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/settings`, {
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/settings`, {
 			method: "POST",
 			body: JSON.stringify(data),
 			headers: { "Content-Type": "application/json" }

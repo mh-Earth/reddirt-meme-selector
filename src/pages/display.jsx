@@ -32,7 +32,7 @@ const Display = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/getall?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
+		fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/getall?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
 
 			.then((res) => res.json())
 			.then((data) => {
@@ -42,7 +42,7 @@ const Display = () => {
 				setHasAdmin(data.hasAdmin)
 			});
 
-		// fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
+		// fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/admin?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
 
 		// 	.then((res) => res.json())
 		// 	.then((data) => {
@@ -119,7 +119,7 @@ const Display = () => {
 			}
 
 			setDeleting(true)
-			fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/removes`, {
+			fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/removes`, {
 				method: "DELETE",
 				body: JSON.stringify(data),
 				headers: { "Content-Type": "application/json" }

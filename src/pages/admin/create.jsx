@@ -37,7 +37,7 @@ const Create = () => {
             "api_key": process.env.NEXT_PUBLIC_API_KEY
         }
 
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin/create`, {
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/admin/create`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }

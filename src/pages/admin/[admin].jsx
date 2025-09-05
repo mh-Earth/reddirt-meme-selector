@@ -19,7 +19,7 @@ const Admin = () => {
 
     useEffect(() => {
 
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin/adminpanel?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, {
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/admin/adminpanel?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, {
             method: "POST",
             body: JSON.stringify({"slug":admin}),
             headers: { "Content-Type": "application/json" }
@@ -57,7 +57,7 @@ const Admin = () => {
                 "api_key": process.env.NEXT_PUBLIC_API_KEY
             }
 
-            fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/admin`, {
+            fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/admin`, {
                 method: "DELETE",
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" }
@@ -103,7 +103,7 @@ const Admin = () => {
                     "api_key": process.env.NEXT_PUBLIC_API_KEY
                 }
 
-                fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/reset`, {
+                fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/reset`, {
                     method: "DELETE",
                     body: JSON.stringify(data),
                     headers: { "Content-Type": "application/json" }

@@ -34,7 +34,7 @@ const SubReddit = () => {
         if (subreddit !== undefined) {
             console.log(subreddit !== undefined)
             setLoading(true);
-            fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
+            fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/get/${subreddit[0]}/${subreddit[1]}/${subreddit[2]}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`, { cache: "no-cache" })
                 .then((res) => res.json())
                 .then((data) => {
                     setSubs(data.submission)
@@ -101,7 +101,7 @@ const SubReddit = () => {
         })
 
         setSaving(true)
-        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/api/save/reddit`, {
+        fetch(`${process.env.NEXT_PUBLIC_SERVERNAME}/save/reddit`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
